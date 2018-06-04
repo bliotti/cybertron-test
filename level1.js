@@ -54,7 +54,7 @@ export default function() {
 
   const ex5 = 'Use map to find the square root of each number'
   const exercise5 = _ => {
-    const numbers = [9, 16, 25, 36, 49, 64, 81]
+  const numbers = [9, 16, 25, 36, 49, 64, 81]
 
     return map(n => Math.sqrt(n), numbers)
   }
@@ -82,10 +82,16 @@ export default function() {
   const exercise7 = _ => {
     const numbers = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 
+    const myCheckPrimes = num => {
+      for (var i = 2; i <= Math.sqrt(num); i++) {
+        if (num % i === 0) return false
+      }
+      return true
+      }
 
     return compose(
       reduce((n, m) => n + 1, 0),
-      filter(n => checkPrimes(n)),
+      filter(myCheckPrimes),
       map(n => n - 1)
     )(numbers)
   }
