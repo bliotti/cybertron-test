@@ -115,43 +115,90 @@ const clients = [
 export default function() {
   /* Level 2 - colors */
 
+  //const fullname = o => `${prop('first', o)} ${prop('last', o)}`
+  //console.log(fullname(clients[0]))
+
   const ex1 =
     'Use map to return a concatenated first and last name of each client.'
   const exercise1 = _ => {
-    return []
+    //return clients[0].name.firstName
+    return map(person => `${person.name.firstName} ${person.name.lastName}`, clients)
   }
+
+
+
+
 
   const ex2 = 'Use filter to return clients from Wyoming'
   const exercise2 = _ => {
-    return []
+    return filter(person => (person.address.state === 'Wyoming'), clients)
   }
+
+
+
+
 
   const ex3 = 'Use reduce to count the number of people with green eyes '
   const exercise3 = _ => {
-    return 0
+
+  return reduce((acc, person) => person.eyeColor === 'green' ? acc + 1 : acc , 0, clients)
   }
+
+
+
 
   const ex4 = `Use map, filter and reduce with compose to return the full name (as a string) of the female from Wyoming. `
   const exercise4 = _ => {
-    return null
+
+    const stringify = (acc, fullname) => (acc + ' ' + fullname).trim()
+
+    return compose(
+        reduce(stringify, ''),
+        map(person => `${person.name.firstName} ${person.name.lastName}`),
+        filter(person => (person.gender === 'female')),
+        filter(person => (person.address.state === 'Wyoming'))
+      )(clients)
   }
+
+
+
+
 
   const ex5 =
     'Use map and filter to return the full address of the clients living in North Carolina'
   const exercise5 = _ => {
-    return []
+
+    return  compose(
+      map(person => `${person.address.street} ${person.address.city}, ${person.address.state} ${person.address.zip}`),
+      filter(person => (person.address.state === 'North Carolina'))
+    )(clients)
   }
+
+
+
 
   const ex6 = 'use filter to remove anyone over the age of 25'
   const exercise6 = _ => {
-    return []
+    return filter(person => !(person.age > 25), clients)
   }
 
+
+
+  // TODO check if ok only reduce
   const ex7 =
     'use reduce to count the number of males, age 22 - 27, who have green eyes'
   const exercise7 = _ => {
-    return 0
+
+
+    return compose(
+      reduce((acc, person) => acc + 1, 0),
+      filter(person => (person.age > 22 && person.age < 27)),
+      filter(person => (person.eyeColor === 'green'))
+    )(clients)
   }
+
+
+
 
   /* tests to validate exercises go here */
   test('test', assert => {
